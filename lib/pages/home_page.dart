@@ -1,5 +1,6 @@
-import 'package:f_202010_todo_class/model/todo.dart';
 import 'package:flutter/material.dart';
+import 'package:f_202010_todo_class/pages/new_todo_dialog.dart';
+import 'package:f_202010_todo_class/model/todo.dart';
 
 class HomePageTodo extends StatefulWidget {
   @override
@@ -21,23 +22,38 @@ class _HomePageTodoState extends State<HomePageTodo> {
     );
   }
 
-  Widget _list(){
-      return ListView.builder(
+  Widget _list() {
+    return ListView.builder(
       itemCount: todos.length,
-      itemBuilder: (context, posicion) {
-        var element = todos[posicion];
-        return _item(element, posicion);
+      itemBuilder: (context, index) {
+        var element = todos[index];
+        return _item(element, index);
       },
     );
   }
 
-  Widget _item(Todo element, int posicion){
-    return Text('$posicion');
+  Widget _item(Todo element, int index) {
+    return Dismissible(
+      key: UniqueKey(),
+      child: Card(
+        child: ListTile(
+          title: Text(element.title),
+          subtitle: Text(element.body),
+          isThreeLine: true,
+        ),
+        color: element.completed ? Colors.blueGrey : Colors.yellow[200],
+      ),
+    );
   }
 
-  void _addTodo(){
-    setState(() {
-      todos.add(new Todo(title:"itemT", body: "itemB", completed: 0 ));
-    });
+  void _addTodo() async {
+    final todo = await showDialog<Todo>(
+        context: context, builder: (BuildContext context) => NewTodoDialog());
+
+    if (todo != null) {
+      setState(() {
+        todos.add(todo);
+      });
+    }
   }
 }
