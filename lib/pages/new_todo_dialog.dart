@@ -19,6 +19,8 @@ class _NewTodoDialogState extends State<NewTodoDialog> {
         style: TextStyle(color: Theme.of(context).primaryColor, fontSize: 20.0),
       ),
       content: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           TextField(
             controller: controllerTitle,
@@ -28,23 +30,27 @@ class _NewTodoDialogState extends State<NewTodoDialog> {
             controller: controllerBody,
             decoration: InputDecoration(labelText: "Body"),
           ),
-          Row(
-            children: <Widget>[
-              FlatButton(
-                child: Text("Save"),
-                onPressed: () {
-                  final todo = new Todo(
-                      title: controllerTitle.value.text,
-                      body: controllerBody.value.text,
-                      completed: false);
-
-                  Navigator.of(context).pop(todo);
-                },
-              )
-            ],
-          )
         ],
       ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text("Cancel"),
+          onPressed: () {
+            Navigator.of(context).pop(null);
+          },
+        ),
+        FlatButton(
+          child: Text("Save"),
+          onPressed: () {
+            final todo = new Todo(
+                title: controllerTitle.value.text,
+                body: controllerBody.value.text,
+                completed: false);
+
+            Navigator.of(context).pop(todo);
+          },
+        )
+      ],
     );
   }
 }
