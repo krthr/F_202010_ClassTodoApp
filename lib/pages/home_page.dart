@@ -34,7 +34,21 @@ class _HomePageTodoState extends State<HomePageTodo> {
 
   Widget _item(Todo element, int index) {
     return Dismissible(
+      background: Container(
+        padding: EdgeInsets.all(5.0),
+        alignment: Alignment.centerLeft,
+        color: Colors.red,
+        child: Text(
+          "Deleting...",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+      ),
       key: UniqueKey(),
+      onDismissed: (direction) {
+        setState(() {
+          todos.removeAt(index);
+        });
+      },
       child: Card(
         child: ListTile(
           title: Text(element.title),
